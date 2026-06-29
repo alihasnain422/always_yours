@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>حرا — میرے دل کی آواز</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Nastaliq+Urdu:wght@400;500;600;700&family=Dancing+Script:wght@400;600&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --rose:       #c8536a;
+    --rose-light: #e8869a;
+    --rose-dark:  #8b1a31;
+    --gold:       #c9a84c;
+    --gold-light: #e8c97a;
+    --ivory:      #fdf6f0;
+    --deep:       #0e0608;
+    --ff-urdu:    'Noto Nastaliq Urdu', 'Jameel Noori Nastaleeq', serif;
+    --ff-display: 'Cormorant Garamond', Georgia, serif;
+    --ff-script:  'Dancing Script', cursive;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--deep);
+    color: var(--ivory);
+    font-family: var(--ff-urdu);
+    overflow-x: hidden;
+    cursor: default;
+    direction: rtl;
+  }
+
+  /* ── NAV ─────────────────────────────────────────── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    display: flex; align-items: center; justify-content: center;
+    flex-wrap: wrap; gap: 1.5rem;
+    padding: 1rem 2rem;
+    background: linear-gradient(180deg, rgba(14,6,8,0.97) 0%, transparent 100%);
+    backdrop-filter: blur(8px);
+    direction: rtl;
+  }
+  nav a {
+    font-family: var(--ff-urdu); font-size: 0.95rem; font-weight: 500;
+    color: rgba(253,246,240,0.6); text-decoration: none;
+    transition: color 0.3s; letter-spacing: 0;
+  }
+  nav a:hover { color: var(--gold-light); }
+  .nav-heart { color: var(--rose); font-size: 1.1rem; animation: pulse 2s ease-in-out infinite; }
+
+  /* ── SECTIONS ─────────────────────────────────────── */
+  section {
+    min-height: 100vh; position: relative;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+
+  #starfield { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+  #flowers   { position: fixed; inset: 0; z-index: 999; pointer-events: none; display: none; }
+
+  /* ── HOME ─────────────────────────────────────────── */
+  #home {
+    z-index: 1;
+    background: radial-gradient(ellipse at 30% 50%, #3a0d1a 0%, var(--deep) 70%);
+  }
+  .home-bg-orb { position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none; }
+  .orb1 { width: 500px; height: 500px; top: -100px; right: -150px;
+    background: radial-gradient(circle, rgba(200,83,106,0.25) 0%, transparent 70%); }
+  .orb2 { width: 400px; height: 400px; bottom: -80px; left: -100px;
+    background: radial-gradient(circle, rgba(201,168,76,0.15) 0%, transparent 70%); }
+  .orb3 { width: 300px; height: 300px; top: 40%; right: 55%;
+    background: radial-gradient(circle, rgba(200,83,106,0.12) 0%, transparent 70%);
+    animation: float 8s ease-in-out infinite; }
+
+  .home-inner {
+    position: relative; z-index: 2; text-align: center;
+    padding: 6rem 2rem 4rem; max-width: 820px;
+  }
+  .eyebrow {
+    font-family: var(--ff-urdu); font-size: 1rem; font-weight: 500;
+    color: var(--gold); margin-bottom: 1.8rem;
+    opacity: 0; animation: fadeUp 1s 0.4s forwards;
+    letter-spacing: 0.05em;
+  }
+  .home-title {
+    font-family: var(--ff-urdu); font-size: clamp(2.8rem, 7vw, 5.5rem);
+    font-weight: 700; line-height: 1.5; color: var(--ivory);
+    opacity: 0; animation: fadeUp 1s 0.7s forwards;
+  }
+  .home-title em {
+    font-style: normal; color: var(--rose-light);
+    display: block;
+  }
+  .home-subtitle {
+    font-family: var(--ff-urdu); font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+    color: rgba(253,246,240,0.65); margin-top: 1.4rem;
+    opacity: 0; animation: fadeUp 1s 1s forwards;
+  }
+  .divider-rose {
+    margin: 2rem auto;
+    display: flex; align-items: center; justify-content: center; gap: 0.8rem;
+    opacity: 0; animation: fadeUp 1s 1.2s forwards;
+  }
+  .divider-rose span { display: block; height: 1px; width: 80px; background: var(--gold); opacity: 0.5; }
+  .divider-rose svg { width: 20px; height: 20px; fill: var(--rose); }
+  .home-btns {
+    display: flex; gap: 1.2rem; justify-content: center; flex-wrap: wrap;
+    margin-top: 2rem;
+    opacity: 0; animation: fadeUp 1s 1.5s forwards;
+  }
+  .btn-primary {
+    padding: 0.9rem 2.4rem; border: none; border-radius: 50px; cursor: pointer;
+    font-family: var(--ff-urdu); font-size: 1rem; font-weight: 600;
+    background: linear-gradient(135deg, var(--rose), var(--rose-dark));
+    color: #fff; position: relative; overflow: hidden;
+    box-shadow: 0 4px 30px rgba(200,83,106,0.45);
+    transition: transform 0.3s, box-shadow 0.3s;
+    direction: rtl;
+  }
+  .btn-primary::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, transparent, rgba(255,255,255,0.15));
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 40px rgba(200,83,106,0.6); }
+  .btn-primary:hover::after { opacity: 1; }
+  .btn-ghost {
+    padding: 0.9rem 2.4rem; border-radius: 50px; cursor: pointer;
+    font-family: var(--ff-urdu); font-size: 1rem; font-weight: 500;
+    border: 1px solid rgba(201,168,76,0.5); background: transparent;
+    color: var(--gold-light); transition: all 0.3s; direction: rtl;
+  }
+  .btn-ghost:hover {
+    background: rgba(201,168,76,0.12);
+    border-color: var(--gold-light);
+    transform: translateY(-3px);
+  }
+  .scroll-hint {
+    position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+    font-size: 0.9rem; color: rgba(253,246,240,0.3);
+    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+    opacity: 0; animation: fadeUp 1s 2s forwards;
+    font-family: var(--ff-urdu);
+  }
+  .scroll-hint::after {
+    content: ''; display: block; width: 1px; height: 40px;
+    background: linear-gradient(180deg, rgba(253,246,240,0.3), transparent);
+    animation: scrollLine 2s ease-in-out infinite;
+  }
+
+  /* ── LETTER ───────────────────────────────────────── */
+  #letter {
+    background: linear-gradient(160deg, #110609 0%, #1e0a10 50%, #0d0507 100%);
+    z-index: 1; padding: 5rem 1.5rem;
+  }
+  .letter-envelope {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at top left, rgba(200,83,106,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse at bottom right, rgba(201,168,76,0.06) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .section-label {
+    font-family: var(--ff-urdu); font-size: 1rem; font-weight: 500;
+    color: var(--gold); margin-bottom: 1rem; text-align: center;
+  }
+  .section-title {
+    font-family: var(--ff-urdu); font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 700; line-height: 1.5; color: var(--ivory);
+    margin-bottom: 0.5rem; text-align: center;
+  }
+  .section-title em { font-style: normal; color: var(--rose-light); }
+  .letter-card {
+    position: relative; z-index: 2;
+    max-width: 760px; width: calc(100% - 3rem); margin: 2rem auto 0;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(200,83,106,0.2);
+    border-radius: 6px;
+    padding: 3rem clamp(1.5rem, 5vw, 4rem);
+    box-shadow: 0 0 80px rgba(200,83,106,0.08), inset 0 1px 0 rgba(255,255,255,0.06);
+    backdrop-filter: blur(10px);
+    direction: rtl; text-align: right;
+  }
+  .letter-header { text-align: center; margin-bottom: 2.5rem; }
+  .letter-seal {
+    width: 55px; height: 55px; margin: 0 auto 1.2rem;
+    background: linear-gradient(135deg, var(--rose), var(--rose-dark));
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem; box-shadow: 0 4px 20px rgba(200,83,106,0.5);
+  }
+  .letter-date {
+    font-family: var(--ff-urdu); font-size: 1rem; color: rgba(253,246,240,0.45);
+  }
+  .letter-body {
+    font-family: var(--ff-urdu); font-size: clamp(1rem, 2vw, 1.15rem);
+    font-weight: 400; line-height: 2.4; color: rgba(253,246,240,0.88);
+  }
+  .letter-body p { margin-bottom: 1.5rem; }
+  .letter-signature {
+    margin-top: 2rem; text-align: right;
+    font-family: var(--ff-urdu); font-size: 1.4rem; font-weight: 600;
+    color: var(--rose-light);
+  }
+  .letter-signature small {
+    display: block; font-family: var(--ff-urdu); font-size: 0.85rem;
+    color: rgba(253,246,240,0.35); margin-top: 0.3rem;
+  }
+
+  /* ── POETRY ───────────────────────────────────────── */
+  #poetry {
+    background: linear-gradient(170deg, #0a0510 0%, #150819 60%, #0e0608 100%);
+    z-index: 1; padding: 6rem 1.5rem;
+  }
+  .poetry-bg {
+    position: absolute; inset: 0; pointer-events: none;
+    background: radial-gradient(ellipse at 30% 20%, rgba(138,72,162,0.1) 0%, transparent 60%);
+  }
+  .poetry-grid {
+    position: relative; z-index: 2;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+    gap: 2rem; max-width: 980px; width: 100%; margin-top: 3rem;
+  }
+  .poem-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(201,168,76,0.15);
+    border-radius: 4px; padding: 2.5rem 2rem;
+    position: relative; overflow: hidden;
+    transition: transform 0.4s, box-shadow 0.4s;
+    direction: rtl; text-align: right;
+  }
+  .poem-card::before {
+    content: ''; position: absolute; top: 0; right: 0; left: 0; height: 3px;
+    background: linear-gradient(90deg, var(--gold), var(--rose));
+    transform: scaleX(0); transform-origin: right; transition: transform 0.4s;
+  }
+  .poem-card:hover { transform: translateY(-6px); box-shadow: 0 20px 60px rgba(200,83,106,0.15); }
+  .poem-card:hover::before { transform: scaleX(1); }
+  .poem-number {
+    font-family: var(--ff-display); font-size: 3.5rem; font-weight: 300;
+    color: rgba(200,83,106,0.15); line-height: 1;
+    position: absolute; top: 1rem; left: 1.5rem;
+  }
+  .poem-emoji {
+    font-size: 2rem; margin-bottom: 0.8rem; display: block;
+    filter: drop-shadow(0 0 8px rgba(200,83,106,0.4));
+  }
+  .poem-title {
+    font-family: var(--ff-urdu); font-size: 1.35rem; font-weight: 600;
+    color: var(--rose-light); margin-bottom: 1.2rem;
+  }
+  .poem-body {
+    font-family: var(--ff-urdu); font-size: 1rem; font-weight: 400;
+    line-height: 2.5; color: rgba(253,246,240,0.82);
+    white-space: pre-line;
+  }
+  .poem-author {
+    margin-top: 1.5rem; font-family: var(--ff-urdu); font-size: 0.95rem;
+    color: var(--gold); opacity: 0.75;
+  }
+
+  /* ── GALLERY ──────────────────────────────────────── */
+  #gallery {
+    background: linear-gradient(150deg, #0e0608 0%, #1a0a0d 50%, #0a0608 100%);
+    z-index: 1; padding: 6rem 1.5rem;
+  }
+  .gallery-intro {
+    text-align: center; max-width: 580px; margin-bottom: 3rem;
+  }
+  .gallery-intro p {
+    font-family: var(--ff-urdu); font-size: 1.05rem; font-weight: 400;
+    line-height: 2.2; color: rgba(253,246,240,0.6); margin-top: 1rem;
+    direction: rtl;
+  }
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 220px;
+    gap: 0.6rem;
+    max-width: 920px; width: 100%;
+    position: relative; z-index: 2;
+  }
+  .g-item {
+    position: relative; overflow: hidden; border-radius: 3px;
+    cursor: pointer; background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(200,83,106,0.15);
+    transition: border-color 0.3s;
+  }
+  .g-item:hover { border-color: rgba(200,83,106,0.45); }
+  .g-item.tall { grid-row: span 2; }
+  .g-item.wide { grid-column: span 2; }
+  .g-placeholder {
+    width: 100%; height: 100%;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 0.6rem;
+    font-family: var(--ff-urdu); font-size: 0.9rem;
+    color: rgba(253,246,240,0.25); transition: all 0.4s;
+    direction: rtl;
+  }
+  .g-placeholder:hover { color: rgba(200,83,106,0.6); }
+  .g-placeholder svg { width: 32px; height: 32px; opacity: 0.3; }
+  .g-item img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.6s, filter 0.4s;
+    filter: brightness(0.85) saturate(0.9);
+  }
+  .g-item:hover img { transform: scale(1.07); filter: brightness(1) saturate(1.1); }
+  .g-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 50%, rgba(14,6,8,0.72) 100%);
+    opacity: 0; transition: opacity 0.4s;
+  }
+  .g-item:hover .g-overlay { opacity: 1; }
+  .g-caption {
+    position: absolute; bottom: 1rem; right: 1rem; left: 1rem;
+    font-family: var(--ff-urdu); font-size: 0.95rem; color: var(--ivory);
+    text-align: right;
+    opacity: 0; transform: translateY(8px); transition: all 0.4s;
+  }
+  .g-item:hover .g-caption { opacity: 1; transform: translateY(0); }
+  .gallery-upload-hint {
+    margin-top: 1.8rem; text-align: center;
+    font-family: var(--ff-urdu); font-size: 0.9rem;
+    color: rgba(253,246,240,0.3); direction: rtl;
+    line-height: 2;
+  }
+  .gallery-upload-hint span { color: var(--gold); }
+  .gallery-upload-hint code {
+    background: rgba(255,255,255,0.07); padding: 0.15rem 0.5rem;
+    border-radius: 3px; font-size: 0.8rem; direction: ltr;
+    display: inline-block; color: var(--gold-light);
+    font-family: 'Courier New', monospace;
+  }
+
+  /* ── TIMELINE ─────────────────────────────────────── */
+  #timeline {
+    background: linear-gradient(180deg, #0d0608 0%, #140810 100%);
+    z-index: 1; padding: 6rem 1.5rem;
+  }
+  .timeline-line {
+    position: absolute; left: 50%; top: 6rem; bottom: 4rem;
+    width: 1px; background: linear-gradient(180deg, transparent, var(--rose) 20%, var(--gold) 80%, transparent);
+    transform: translateX(-50%);
+  }
+  .timeline-wrap {
+    position: relative; z-index: 2; max-width: 760px; width: 100%; margin-top: 3rem;
+  }
+  .t-item {
+    display: flex; gap: 2.5rem; margin-bottom: 3.5rem; position: relative;
+    align-items: flex-start; direction: rtl;
+  }
+  .t-item:nth-child(even) { flex-direction: row-reverse; text-align: left; }
+  .t-dot {
+    flex-shrink: 0; width: 46px; height: 46px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--rose), var(--rose-dark));
+    border: 3px solid var(--deep);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; position: relative; z-index: 1;
+    box-shadow: 0 0 20px rgba(200,83,106,0.4);
+    margin-top: 0.2rem;
+  }
+  .t-content { flex: 1; }
+  .t-date {
+    font-family: var(--ff-urdu); font-size: 0.85rem; font-weight: 500;
+    color: var(--gold); margin-bottom: 0.4rem;
+  }
+  .t-title {
+    font-family: var(--ff-urdu); font-size: 1.3rem; font-weight: 600;
+    color: var(--rose-light); margin-bottom: 0.5rem;
+  }
+  .t-desc {
+    font-family: var(--ff-urdu); font-size: 0.95rem; font-weight: 400;
+    line-height: 2.1; color: rgba(253,246,240,0.58);
+  }
+
+  /* ── PROMISE ──────────────────────────────────────── */
+  #promise {
+    background: radial-gradient(ellipse at center, #1f0812 0%, #0a0305 100%);
+    z-index: 1; padding: 6rem 1.5rem; text-align: center;
+  }
+  .vow-ring {
+    position: relative; width: 160px; height: 160px; margin: 0 auto 3rem;
+  }
+  .vow-ring-svg { width: 100%; height: 100%; }
+  .vow-ring-inner {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2.4rem;
+    animation: heartbeat 1.8s ease-in-out infinite;
+  }
+  .promises-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem; max-width: 820px; width: 100%; margin: 3rem auto;
+    direction: rtl;
+  }
+  .promise-item {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(200,83,106,0.18);
+    border-radius: 4px; padding: 2rem 1.5rem;
+    text-align: right; transition: all 0.4s;
+    direction: rtl;
+  }
+  .promise-item:hover {
+    background: rgba(200,83,106,0.08);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(200,83,106,0.12);
+  }
+  .promise-icon { font-size: 2rem; margin-bottom: 1rem; }
+  .promise-item h3 {
+    font-family: var(--ff-urdu); font-size: 1.2rem; font-weight: 600;
+    color: var(--rose-light); margin-bottom: 0.6rem;
+  }
+  .promise-item p {
+    font-family: var(--ff-urdu); font-size: 0.9rem; font-weight: 400;
+    line-height: 2.1; color: rgba(253,246,240,0.55);
+  }
+  .final-cta {
+    margin-top: 3rem; display: flex; flex-direction: column;
+    align-items: center; gap: 1.5rem; direction: rtl;
+  }
+  .final-words {
+    font-family: var(--ff-urdu); font-size: clamp(1.6rem, 4vw, 2.8rem);
+    color: var(--rose-light); line-height: 1.8; font-weight: 700;
+  }
+  .final-sub {
+    font-family: var(--ff-urdu); font-size: 1.05rem; font-weight: 400;
+    color: rgba(253,246,240,0.5); margin-top: 0.5rem;
+  }
+
+  /* ── KEYFRAMES ────────────────────────────────────── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes float {
+    0%,100% { transform: translateY(0); }
+    50%      { transform: translateY(-20px); }
+  }
+  @keyframes pulse {
+    0%,100% { transform: scale(1); opacity: 1; }
+    50%      { transform: scale(1.3); opacity: 0.7; }
+  }
+  @keyframes heartbeat {
+    0%,100% { transform: scale(1); }
+    14%      { transform: scale(1.2); }
+    28%      { transform: scale(1); }
+    42%      { transform: scale(1.15); }
+    56%      { transform: scale(1); }
+  }
+  @keyframes scrollLine {
+    0%   { transform: scaleY(0); transform-origin: top; }
+    50%  { transform: scaleY(1); transform-origin: top; }
+    51%  { transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+  }
+  @keyframes ringRotate {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+  @keyframes shimmer {
+    0%   { background-position: -200% center; }
+    100% { background-position: 200% center; }
+  }
+
+  /* ── SCROLL REVEAL ────────────────────────────────── */
+  .reveal {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.85s ease, transform 0.85s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── LIGHTBOX ─────────────────────────────────────── */
+  #lightbox {
+    display: none; position: fixed; inset: 0; z-index: 2000;
+    background: rgba(10,3,5,0.95); align-items: center; justify-content: center;
+    cursor: pointer;
+  }
+  #lightbox.open { display: flex; }
+  #lightbox img { max-width: 90vw; max-height: 90vh; border-radius: 4px; }
+
+  /* ── AUDIO BAR ────────────────────────────────────── */
+  .audio-bar {
+    position: fixed; bottom: 1.5rem; left: 1.5rem; z-index: 1100;
+    background: rgba(14,6,8,0.88); border: 1px solid rgba(200,83,106,0.3);
+    border-radius: 50px; padding: 0.5rem 1.1rem;
+    display: flex; align-items: center; gap: 0.5rem;
+    backdrop-filter: blur(10px); cursor: pointer;
+    font-family: var(--ff-urdu); font-size: 0.85rem;
+    color: rgba(253,246,240,0.5); transition: all 0.3s;
+    direction: rtl;
+  }
+  .audio-bar:hover { border-color: var(--rose); color: var(--rose-light); }
+  .audio-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--rose); animation: pulse 2s infinite; flex-shrink: 0; }
+
+  /* ── RESPONSIVE ───────────────────────────────────── */
+  @media (max-width: 640px) {
+    .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+    .g-item.wide { grid-column: span 1; }
+    .timeline-line { left: 20px; }
+    .t-item, .t-item:nth-child(even) { flex-direction: column; gap: 1rem; text-align: right; }
+    nav { gap: 0.8rem; }
+    nav a { font-size: 0.85rem; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="starfield"></canvas>
+<canvas id="flowers"></canvas>
+<div id="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src="" alt=""/></div>
+
+<div class="audio-bar" onclick="toggleAmbient()" title="موسیقی">
+  <div class="audio-dot"></div>
+  <span id="audio-label">🎵 سریلی دھن</span>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="#home">🏠 گھر</a>
+  <a href="#letter">💌 خط</a>
+  <span class="nav-heart">♥</span>
+  <a href="#poetry">📜 شاعری</a>
+  <a href="#gallery">🌸 گیلری</a>
+  <a href="#promise">💍 وعدے</a>
+</nav>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- PAGE 1 — HOME                          -->
+<!-- ═══════════════════════════════════════ -->
+<section id="home">
+  <div class="home-bg-orb orb1"></div>
+  <div class="home-bg-orb orb2"></div>
+  <div class="home-bg-orb orb3"></div>
+  <div class="home-inner">
+    <p class="eyebrow">💫 میری روح کی آواز — صرف تمہارے لیے 💫</p>
+    <h1 class="home-title">
+      حرا 🌹
+      <em>تم میری پوری دنیا ہو</em>
+    </h1>
+    <p class="home-subtitle">— اور میں معافی مانگتا ہوں، میری جان —</p>
+    <div class="divider-rose">
+      <span></span>
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+      </svg>
+      <span></span>
+    </div>
+    <div class="home-btns">
+      <button class="btn-primary" onclick="startFlowers('#letter')">🌺 میرا دل کھولو ♥</button>
+      <button class="btn-ghost" onclick="smoothScrollTo('#letter')">💌 میرا خط پڑھو</button>
+    </div>
+  </div>
+  <div class="scroll-hint">⬇ نیچے سکرول کریں</div>
+</section>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- PAGE 2 — LOVE LETTER                   -->
+<!-- ═══════════════════════════════════════ -->
+<section id="letter">
+  <div class="letter-envelope"></div>
+  <div class="letter-card reveal">
+    <div class="letter-header">
+      <div class="letter-seal">💌</div>
+      <div class="letter-date">💝 دل کی گہرائیوں سے لکھا ہوا</div>
+    </div>
+    <div class="letter-body">
+      <p>میری پیاری حرا ❤️</p>
+      <p>
+        جانتا ہوں کہ الفاظ کبھی بھی اتنے بڑے نہیں ہوتے جتنا میں نے تمہیں تکلیف دی ہے —
+        لیکن پھر بھی یہاں ہوں، کیونکہ تم ہر وہ سچ سننے کی حقدار ہو جو میرے دل میں بستا ہے۔
+      </p>
+      <p>
+        🌧️ میں جانتا ہوں کہ ہم بہت سے طوفانوں سے گزرے ہیں۔ ایسے لمحے آئے جب دوریاں
+        ناقابلِ برداشت لگیں، ایسے الفاظ نکلے جو واپس نہ لیے جا سکتے تھے، اور ایسی
+        خاموشیاں چھا گئیں جو بہت لمبی تھیں۔ اور میں جانتا ہوں — سچ میں جانتا ہوں —
+        کہ میں ہمیشہ وہ شخص نہیں رہا جس کی تمہیں ضرورت تھی۔
+        <strong>حرا، میں تم سے دل کی گہرائیوں سے معافی مانگتا ہوں۔</strong>
+      </p>
+      <p>
+        🌟 لیکن یہ بھی سن لو: ہر جھگڑے میں، ہر تنہا رات میں، شک کے ہر لمحے میں —
+        میں نے تمہیں چننا کبھی نہیں چھوڑا۔ میں نے <em>ہم دونوں پر</em> یقین رکھنا کبھی نہیں چھوڑا۔
+        کیونکہ تم صرف میری محبت نہیں — تم وہ وجہ ہو جو مجھے بہتر انسان بنانے پر مجبور کرتی ہے۔
+        تم میرا گھر ہو۔
+      </p>
+      <p>
+        🌸 تم اس دنیا میں جس طرح چلتی ہو، اس میں ایک خاص نور ہے۔ جب تم کسی کی
+        پرواہ کرتی ہو تو اس میں آگ ہے۔ جب تم محبت کرتی ہو — چاہے محبت مشکل ہو —
+        تب بھی گرمجوشی ہے۔ میں تمہیں دیکھتا ہوں۔ پوری طرح۔ اور ہر روز تم پر
+        حیران ہوتا ہوں۔
+      </p>
+      <p>
+        💫 میں یہ نہیں مانگ رہا کہ سب کچھ ایک پل میں ٹھیک ہو جائے۔ میں بس تمہارا
+        ہاتھ مانگ رہا ہوں — تاکہ ہم ساتھ آگے بڑھیں، اور کچھ ایسا خوبصورت بنائیں
+        جو پہلے سے بھی زیادہ مضبوط ہو۔ ایک سچا سنگ، ایک نرم اشارہ، ایک سادہ شام —
+        ساتھ ساتھ۔
+      </p>
+      <p>💞 تم میرا سب سے پیارا باب ہو۔ اور میں اس کہانی کو ختم کرنے کے لیے بالکل تیار نہیں۔</p>
+    </div>
+    <div class="letter-signature">
+      🌹 تمہارا اپنا — علی حسنین
+      <small>— ہمیشہ، ہر جہاں میں —</small>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- PAGE 3 — URDU POETRY                   -->
+<!-- ═══════════════════════════════════════ -->
+<section id="poetry">
+  <div class="poetry-bg"></div>
+  <div class="section-label reveal">📜 میرے قلم سے تمہاری روح تک</div>
+  <h2 class="section-title reveal">وہ الفاظ جو میں <em>صرف لکھ سکا</em></h2>
+  <div class="poetry-grid">
+
+    <!-- POEM 1 -->
+    <div class="poem-card reveal">
+      <div class="poem-number">١</div>
+      <span class="poem-emoji">🌹💔🌹</span>
+      <div class="poem-title">تم رہو تو جی لوں</div>
+      <div class="poem-body">حرا، تمہارے بغیر میری سانسیں ہیں
+مگر زندگی نہیں رہتی 🌙
+
+ہر جھگڑے کے بعد
+جب تم روتی ہو خاموشی سے —
+میرا دل چیخنا چاہتا ہے
+مگر زبان بند ہو جاتی ہے 😔
+
+میں نے تمہیں تکلیف دی ہے
+جانتا ہوں یہ سچ ہے 💔
+مگر اس سچ سے بھی بڑا سچ یہ ہے
+کہ تمہارے بغیر میں ادھورا ہوں ✨
+
+بس اتنا مانگتا ہوں —
+ایک موقع اور دو
+میں وہ بن کر دکھاؤں گا
+جس کا تم نے خواب دیکھا تھا 🌸</div>
+      <div class="poem-author">— علی حسنین، تمہارے لیے 💕</div>
+    </div>
+
+    <!-- POEM 2 -->
+    <div class="poem-card reveal">
+      <div class="poem-number">٢</div>
+      <span class="poem-emoji">💫🌙✨</span>
+      <div class="poem-title">تم میری دعا ہو</div>
+      <div class="poem-body">رات کو جب آسمان تاروں سے بھر جاتا ہے 🌟
+میں ہر ستارے میں تمہاری جھلک ڈھونڈتا ہوں
+
+تمہاری مسکراہٹ ایسی ہے
+جیسے صبح کا پہلا اجالا 🌅
+جب دنیا ابھی سوتی ہو
+اور سب کچھ پاک اور روشن لگے
+
+حرا —
+تم میری نماز میں بھی ہو
+تم میری دعا میں بھی ہو 🤲
+ہر وقت، ہر لمحے
+تم میرے ساتھ ہو
+
+میں تم سے محبت کرتا ہوں
+اتنی، جتنی الفاظ میں سما ہی نہیں سکتی 💞</div>
+      <div class="poem-author">— دل کی گہرائیوں سے 🌹</div>
+    </div>
+
+    <!-- POEM 3 -->
+    <div class="poem-card reveal">
+      <div class="poem-number">٣</div>
+      <span class="poem-emoji">⚡🌧️🌈</span>
+      <div class="poem-title">طوفان کے بعد</div>
+      <div class="poem-body">ہر محبت میں طوفان آتے ہیں 🌧️
+ہماری محبت بھی آزمائی گئی
+
+کڑکتی بجلی تھی، اندھیری راتیں تھیں
+لمبے جھگڑے اور خاموش دوریاں تھیں ⚡
+
+مگر طوفان کے بعد —
+جب بارش تھم جاتی ہے
+اور آسمان صاف ہو جاتا ہے 🌈
+میں ہر بار ایک ہی سچ پر آتا ہوں:
+
+تمہارے ساتھ ہزار طوفان بھی گوارہ ہیں
+کسی اور کے ساتھ پرسکون سمندر نہیں 💙
+
+یہ ہمارا قوس قزح ہے
+یہ ہماری نئی شروعات ہے
+بھیگے ہوئے، تھکے ہوئے — مگر ایک ساتھ 🤝</div>
+      <div class="poem-author">— ایک نئی شروعات کے لیے 🌺</div>
+    </div>
+
+    <!-- POEM 4 -->
+    <div class="poem-card reveal">
+      <div class="poem-number">٤</div>
+      <span class="poem-emoji">🌸💍🌸</span>
+      <div class="poem-title">تم میرا گھر ہو</div>
+      <div class="poem-body">گھر صرف چار دیواریں نہیں ہوتا
+گھر وہ جگہ ہوتی ہے جہاں دل سکون پائے 🏡
+
+جب سے تم ملی ہو مجھے —
+میں نے جانا کہ گھر کیا ہوتا ہے
+
+تمہاری آواز میں راحت ہے 🎵
+تمہاری آنکھوں میں دنیا ہے ✨
+تمہاری موجودگی میں
+میں خود کو مکمل پاتا ہوں
+
+حرا —
+تم میرا گھر ہو، میری جان ہو 💕
+میرا ماضی، میرا حال
+اور میرا سارا مستقبل تم ہو
+
+تمہارے بغیر میں بے گھر ہوں
+واپس آ جاؤ — گھر میں آ جاؤ 🌹</div>
+      <div class="poem-author">— علی حسنین 💞</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- PAGE 4 — GALLERY                       -->
+<!-- ═══════════════════════════════════════ -->
+<section id="gallery">
+  <div class="gallery-intro reveal">
+    <div class="section-label">🌸 روشنی میں قید لمحے</div>
+    <h2 class="section-title">ہماری <em>کہانی</em></h2>
+    <p>
+      ہر تصویر ایک جہان ہے — وہ ایک لمحہ جب ہم دونوں پوری طرح، مکمل طور پر،
+      بلا شک و شبہ — ہم تھے۔ 📸 اپنی پسندیدہ تصاویر نیچے فریم پر کلک کر کے لگائیں۔
+    </p>
+  </div>
+
+  <div class="gallery-grid reveal" id="gallery-grid">
+    <div class="g-item tall" onclick="openGallerySlot(0)">
+      <div class="g-placeholder" id="placeholder-0">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
+          <polyline points="21 15 16 10 5 21"/>
+        </svg>
+        <span>تصویر لگائیں 📷</span>
+      </div>
+      <img id="img-0" src="F:\New folder\Coding\Photos\20251231_225747-COLLAGE.jpg" alt="حرا اور علی" style="display:none" onerror="this.style.display='none'; document.getElementById('placeholder-0').style.display='flex';"/>
+      <div class="g-overlay"></div>
+      <div class="g-caption" id="cap-0">💕 ہمارا لمحہ</div>
+    </div>
+
+    <div class="g-item" onclick="openGallerySlot(1)">
+      <div class="g-placeholder" id="placeholder-1">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
+          <polyline points="21 15 16 10 5 21"/>
+        </svg>
+        <span>تصویر لگائیں 📷</span>
+      </div>
+      <img id="img-1" src="F:\New folder\Coding\Photos\IMG-20230901-WA0055.jpg" alt="" style="display:none" onerror="this.style.display='none'; document.getElementById('placeholder-1').style.display='flex';"/>
+      <div class="g-overlay"></div>
+      <div class="g-caption" id="cap-1">🌹 ساتھ ساتھ</div>
+    </div>
+
+    <div class="g-item" onclick="openGallerySlot(2)">
+      <div class="g-placeholder" id="placeholder-2">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
+          <polyline points="21 15 16 10 5 21"/>
+        </svg>
+        <span>تصویر لگائیں 📷</span>
+      </div>
+      <img id="img-2" src="F:\New folder\Coding\Photos\IMG-20231016-WA0041.jpg" alt="" style="display:none" onerror="this.style.display='none'; document.getElementById('placeholder-2').style.display='flex';"/>
+      <div class="g-overlay"></div>
+      <div class="g-caption" id="cap-2">😊 میری پسندیدہ مسکراہٹ</div>
+    </div>
+
+    <div class="g-item wide" onclick="openGallerySlot(3)">
+      <div class="g-placeholder" id="placeholder-3">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
+          <polyline points="21 15 16 10 5 21"/>
+        </svg>
+        <span>تصویر لگائیں 📷</span>
+      </div>
+      <img id="img-3" src="F:\New folder\Coding\Photos\IMG-20230902-WA0064.jpg" alt="" style="display:none" onerror="this.style.display='none'; document.getElementById('placeholder-3').style.display='flex';"/>
+      <div class="g-overlay"></div>
+      <div class="g-caption" id="cap-3">🌍 ہم دونوں — دنیا کے خلاف</div>
+    </div>
+
+    <div class="g-item" onclick="openGallerySlot(4)">
+      <div class="g-placeholder" id="placeholder-4">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
+          <polyline points="21 15 16 10 5 21"/>
+        </svg>
+        <span>تصویر لگائیں 📷</span>
+      </div>
+      <img id="img-4" src="F:\New folder\Coding\Photos\IMG-20251130-WA0051.jpg" alt="" style="display:none" onerror="this.style.display='none'; document.getElementById('placeholder-4').style.display='flex';"/>
+      <div class="g-overlay"></div>
+      <div class="g-caption" id="cap-4">♾️ ہمیشہ کے لیے</div>
+    </div>
+
+    <div class="g-item" onclick="openGallerySlot(5)">
+      <div class="g-placeholder" id="placeholder-5">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
+          <polyline points="21 15 16 10 5 21"/>
+        </svg>
+        <span>تصویر لگائیں 📷</span>
+      </div>
+      <img id="img-5" src="F:\New folder\Coding\Photos\IMG-20230901-WA0064.jpg" alt="" style="display:none" onerror="this.style.display='none'; document.getElementById('placeholder-5').style.display='flex';"/>
+      <div class="g-overlay"></div>
+      <div class="g-caption" id="cap-5">🌟 میری دنیا</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- TIMELINE                               -->
+<!-- ═══════════════════════════════════════ -->
+<section id="timeline">
+  <div class="timeline-line"></div>
+  <div class="section-label reveal" style="position:relative;z-index:2;">🗺️ ہماری محبت کا نقشہ</div>
+  <h2 class="section-title reveal" style="position:relative;z-index:2;text-align:center;">ہمارا <em>سفر</em></h2>
+  <div class="timeline-wrap">
+
+    <div class="t-item reveal">
+      <div class="t-dot">✨</div>
+      <div class="t-content">
+        <div class="t-date">🌅 شروعات</div>
+        <div class="t-title">وہ دن جب سب کچھ بدل گیا</div>
+        <div class="t-desc">قدرت نے ہمیں ملایا — اور اس کے بعد کچھ بھی معمولی نہیں رہا۔ اس پہلی ملاقات نے میری زندگی کا ہر منصوبہ بدل ڈالا۔</div>
+      </div>
+    </div>
+
+    <div class="t-item reveal">
+      <div class="t-dot">🌹</div>
+      <div class="t-content">
+        <div class="t-date">💕 محبت میں ڈوبنا</div>
+        <div class="t-title">جب پتا چلا کہ تم ہی ہو</div>
+        <div class="t-desc">ایک ایسا خاموش لمحہ تھا جب میں نے تمہاری طرف دیکھا اور سمجھ گیا کہ تمام محبت کے گیت کیوں لکھے گئے تھے۔ وہ لمحہ نرم تھا، یقین سے بھرا تھا — وہ تم تھیں۔</div>
+      </div>
+    </div>
+
+    <div class="t-item reveal">
+      <div class="t-dot">⚡</div>
+      <div class="t-content">
+        <div class="t-date">🌧️ آزمائشیں</div>
+        <div class="t-title">جب ہم آزمائے گئے</div>
+        <div class="t-desc">ہر باب سنہری نہیں تھا۔ ہم نے ایک دوسرے کو تکلیف دی۔ راستہ بھول گئے۔ مگر مشکل ترین لمحوں میں بھی میں نے تمہارے پاس واپس آنا چاہا۔</div>
+      </div>
+    </div>
+
+    <div class="t-item reveal">
+      <div class="t-dot">🌅</div>
+      <div class="t-content">
+        <div class="t-date">💫 ابھی اس لمحے</div>
+        <div class="t-title">یہ ویب سائٹ، یہ لمحہ</div>
+        <div class="t-desc">میں نے یہ صرف تمہارے لیے بنایا ہے۔ ہر لفظ، ہر پھول — یہ میں ہوں، یہاں کھڑا، دوبارہ تمہیں چن رہا ہوں۔ کھلے دل سے۔ پوری طرح سے۔</div>
+      </div>
+    </div>
+
+    <div class="t-item reveal">
+      <div class="t-dot">♾️</div>
+      <div class="t-content">
+        <div class="t-date">🌟 آنے والا کل</div>
+        <div class="t-title">وہ مستقبل جو ہم مل کر بنائیں گے</div>
+        <div class="t-desc">ابھی بہت سے سفر باقی ہیں، بہت سی صبحیں باقی ہیں، وہ قہقہے جو ابھی نہیں لگائے، وہ محبت جو ابھی دریافت نہیں کی — میں یہ سب تمہارے ساتھ چاہتا ہوں۔</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- PAGE 5 — PROMISES                      -->
+<!-- ═══════════════════════════════════════ -->
+<section id="promise">
+  <div class="vow-ring reveal">
+    <svg class="vow-ring-svg" viewBox="0 0 160 160">
+      <defs>
+        <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#c8536a"/>
+          <stop offset="100%" stop-color="#c9a84c"/>
+        </linearGradient>
+      </defs>
+      <circle cx="80" cy="80" r="68" fill="none" stroke="url(#ringGrad)"
+        stroke-width="2" stroke-dasharray="8 4" opacity="0.5"
+        style="animation: ringRotate 20s linear infinite; transform-origin: 80px 80px;"/>
+      <circle cx="80" cy="80" r="52" fill="none" stroke="rgba(200,83,106,0.25)" stroke-width="1"/>
+    </svg>
+    <div class="vow-ring-inner">💍</div>
+  </div>
+
+  <div class="section-label reveal">🌸 میرے وعدے — صرف تمہارے لیے</div>
+  <h2 class="section-title reveal" style="text-align:center">حرا کے لیے <em>میری قسمیں</em></h2>
+
+  <div class="promises-grid">
+    <div class="promise-item reveal">
+      <div class="promise-icon">👂🌸</div>
+      <h3>سننے کا وعدہ</h3>
+      <p>صرف تمہارے الفاظ نہیں — تمہاری خاموشی بھی سنوں گا، وہ باتیں بھی جو تم ڈر سے نہیں کہتیں۔</p>
+    </div>
+    <div class="promise-item reveal">
+      <div class="promise-icon">🛡️💕</div>
+      <h3>حفاظت کا وعدہ</h3>
+      <p>وہ شخص بنوں گا جس کے ساتھ تم محفوظ محسوس کرو — اس دنیا میں، اس رشتے میں، اپنے دل کی گہرائی میں۔</p>
+    </div>
+    <div class="promise-item reveal">
+      <div class="promise-icon">🌱✨</div>
+      <h3>بہتر بننے کا وعدہ</h3>
+      <p>مسلسل بہتر ہوتا رہوں گا — صرف تمہارے لیے نہیں، بلکہ تمہارے ساتھ — تاکہ ہم ساتھ ساتھ بڑھیں۔</p>
+    </div>
+    <div class="promise-item reveal">
+      <div class="promise-icon">❤️🔄</div>
+      <h3>ہر روز چننے کا وعدہ</h3>
+      <p>ہر دن۔ خاص طور پر مشکل دنوں میں۔ تمہیں اپنے غرور، اپنی ناراضگی اور اپنے ڈر سے پہلے چنوں گا۔</p>
+    </div>
+    <div class="promise-item reveal">
+      <div class="promise-icon">🎉🌟</div>
+      <h3>خوشیاں منانے کا وعدہ</h3>
+      <p>تمہاری کامیابیاں، تمہارے خواب، تمہاری چھوٹی سی خوشیاں — ہمیشہ تمہارے ساتھ رہوں گا۔</p>
+    </div>
+    <div class="promise-item reveal">
+      <div class="promise-icon">🌙♾️</div>
+      <h3>ساتھ رہنے کا وعدہ</h3>
+      <p>طوفانوں میں، خاموشیوں میں، اور درمیانی موسموں میں — میں رہوں گا، اور ہمیشہ تمہارے پاس واپس آتا رہوں گا۔</p>
+    </div>
+  </div>
+
+  <div class="final-cta reveal">
+    <div class="final-words">💖 کیا تم مجھے ایک اور موقع دو گی؟ 💖</div>
+    <div class="final-sub">میں یہاں ہوں۔ میں تمہارا ہوں۔ میں کہیں نہیں جاؤں گا۔</div>
+    <button class="btn-primary" id="forgive-btn" style="margin-top:1rem;font-size:1.1rem;padding:1rem 3rem;">
+      💕 ہاں، میں معاف کرتی ہوں ♥
+    </button>
+    <div style="font-family:var(--ff-urdu);font-size:0.9rem;color:rgba(253,246,240,0.3);margin-top:0.5rem;">
+      — علی حسنین، ہمیشہ تمہارا —
+    </div>
+  </div>
+</section>
+
+<script>
+/* ─── STARFIELD ─────────────────────────── */
+(function(){
+  const canvas = document.getElementById('starfield');
+  const ctx = canvas.getContext('2d');
+  let stars = [];
+  function resize(){
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  function initStars(){
+    stars = Array.from({length:160}, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 1.3 + 0.2,
+      speed: Math.random() * 0.005 + 0.002,
+      phase: Math.random() * Math.PI * 2
+    }));
+  }
+  function drawStars(t){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    stars.forEach(s => {
+      const alpha = 0.3 + 0.7 * Math.abs(Math.sin(t * s.speed + s.phase));
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(253,246,240,${alpha*0.65})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(drawStars);
+  }
+  resize(); initStars();
+  window.addEventListener('resize', () => { resize(); initStars(); });
+  requestAnimationFrame(drawStars);
+})();
+
+/* ─── FLOWER FALL ───────────────────────── */
+const flowerCanvas = document.getElementById('flowers');
+const fctx = flowerCanvas.getContext('2d');
+let petals = [], flowerAnim = null;
+
+function startFlowers(targetSelector){
+  flowerCanvas.width = window.innerWidth;
+  flowerCanvas.height = window.innerHeight;
+  flowerCanvas.style.display = 'block';
+  flowerCanvas.style.opacity = '1';
+  petals = [];
+  for(let i=0;i<100;i++) petals.push(makePetal(true));
+  if(flowerAnim) cancelAnimationFrame(flowerAnim);
+  animPetals();
+  if(targetSelector){
+    setTimeout(() => {
+      const el = document.querySelector(targetSelector);
+      if(el) el.scrollIntoView({behavior:'smooth'});
+    }, 2500);
+  }
+  setTimeout(() => {
+    let op = 1;
+    const fade = setInterval(() => {
+      op -= 0.04;
+      flowerCanvas.style.opacity = Math.max(op,0);
+      if(op <= 0){
+        clearInterval(fade);
+        flowerCanvas.style.display = 'none';
+        if(flowerAnim) cancelAnimationFrame(flowerAnim);
+      }
+    }, 30);
+  }, 3800);
+}
+
+function makePetal(instant){
+  const colors = ['#e8869a','#c8536a','#f5c6d0','#c9a84c','#e8c97a','#f9e4ea','#ffb6c1'];
+  return {
+    x: Math.random() * window.innerWidth,
+    y: instant ? Math.random() * -window.innerHeight : -(Math.random()*120),
+    r: Math.random()*13+6,
+    color: colors[Math.floor(Math.random()*colors.length)],
+    speedY: Math.random()*2.5+1.2,
+    speedX: (Math.random()-0.5)*1.6,
+    rotation: Math.random()*Math.PI*2,
+    rotSpeed: (Math.random()-0.5)*0.06,
+    wobble: Math.random()*100,
+    wobbleSpeed: Math.random()*0.04+0.02,
+    opacity: Math.random()*0.6+0.4,
+    type: Math.floor(Math.random()*3)
+  };
+}
+
+function drawHeart(ctx,x,y,size,color,alpha,rot){
+  ctx.save(); ctx.translate(x,y); ctx.rotate(rot); ctx.globalAlpha=alpha;
+  ctx.beginPath(); ctx.fillStyle=color;
+  ctx.moveTo(0,-size*0.1);
+  ctx.bezierCurveTo(size*0.5,-size*0.7,size*1.0,0,0,size*0.7);
+  ctx.bezierCurveTo(-size*1.0,0,-size*0.5,-size*0.7,0,-size*0.1);
+  ctx.fill(); ctx.restore();
+}
+function drawPetalShape(ctx,x,y,size,color,alpha,rot){
+  ctx.save(); ctx.translate(x,y); ctx.rotate(rot); ctx.globalAlpha=alpha;
+  ctx.beginPath(); ctx.fillStyle=color;
+  ctx.ellipse(0,0,size*0.4,size,0,0,Math.PI*2);
+  ctx.fill(); ctx.restore();
+}
+function animPetals(){
+  fctx.clearRect(0,0,flowerCanvas.width,flowerCanvas.height);
+  petals.forEach(p => {
+    p.wobble += p.wobbleSpeed;
+    p.x += p.speedX + Math.sin(p.wobble)*0.9;
+    p.y += p.speedY;
+    p.rotation += p.rotSpeed;
+    if(p.y > flowerCanvas.height+30) Object.assign(p, makePetal(false));
+    if(p.type===0) drawHeart(fctx,p.x,p.y,p.r,p.color,p.opacity,p.rotation);
+    else if(p.type===1) drawPetalShape(fctx,p.x,p.y,p.r,p.color,p.opacity,p.rotation);
+    else {
+      fctx.save(); fctx.globalAlpha=p.opacity*0.7;
+      fctx.beginPath(); fctx.arc(p.x,p.y,p.r*0.5,0,Math.PI*2);
+      fctx.fillStyle=p.color; fctx.fill(); fctx.restore();
+    }
+  });
+  flowerAnim = requestAnimationFrame(animPetals);
+}
+
+/* ─── SCROLL REVEAL ─────────────────────── */
+const revealEls = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+revealEls.forEach(el => observer.observe(el));
+
+/* ─── SMOOTH SCROLL ─────────────────────── */
+function smoothScrollTo(sel){
+  const el = document.querySelector(sel);
+  if(el) el.scrollIntoView({behavior:'smooth'});
+}
+
+/* ─── GALLERY UPLOAD ────────────────────── */
+let activeSlot = null;
+function openGallerySlot(idx){
+  const img = document.getElementById('img-'+idx);
+  if(img && img.src && img.style.display !== 'none'){
+    openLightbox(img.src); return;
+  }
+  activeSlot = idx;
+  document.getElementById('photo-input').click();
+}
+function handlePhotoUpload(e){
+  const file = e.target.files[0];
+  if(!file || activeSlot===null) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    const img = document.getElementById('img-'+activeSlot);
+    const ph  = document.getElementById('placeholder-'+activeSlot);
+    img.src = ev.target.result;
+    img.style.display = 'block';
+    if(ph) ph.style.display = 'none';
+    try { localStorage.setItem('gallery-photo-'+activeSlot, ev.target.result); } catch(err){}
+    activeSlot = null; e.target.value = '';
+  };
+  reader.readAsDataURL(file);
+}
+// Restore saved photos from localStorage
+(function(){
+  for(let i=0;i<6;i++){
+    try {
+      const saved = localStorage.getItem('gallery-photo-'+i);
+      if(saved){
+        const img = document.getElementById('img-'+i);
+        const ph  = document.getElementById('placeholder-'+i);
+        if(img){ img.src = saved; img.style.display='block'; }
+        if(ph) ph.style.display='none';
+      }
+    } catch(err){}
+  }
+})();
+
+/* ─── LIGHTBOX ──────────────────────────── */
+function openLightbox(src){
+  document.getElementById('lightbox-img').src = src;
+  document.getElementById('lightbox').classList.add('open');
+}
+function closeLightbox(){
+  document.getElementById('lightbox').classList.remove('open');
+}
+
+/* ─── AMBIENT AUDIO ─────────────────────── */
+let audioCtx = null, ambientNodes = [], ambientOn = false;
+function toggleAmbient(){
+  if(!ambientOn){ startAmbient(); } else { stopAmbient(); }
+  ambientOn = !ambientOn;
+  document.getElementById('audio-label').textContent = ambientOn ? '🎵 رکو' : '🎵 سریلی دھن';
+}
+function startAmbient(){
+  audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+  const freqs = [110,165,220,277.5];
+  ambientNodes = freqs.map((freq,i) => {
+    const osc=audioCtx.createOscillator(), gain=audioCtx.createGain(), filter=audioCtx.createBiquadFilter();
+    filter.type='lowpass'; filter.frequency.value=400+i*100;
+    osc.type=i%2===0?'sine':'triangle'; osc.frequency.value=freq;
+    gain.gain.setValueAtTime(0,audioCtx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.04-i*0.007,audioCtx.currentTime+2);
+    osc.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination);
+    osc.start(); return {osc,gain};
+  });
+}
+function stopAmbient(){
+  if(!audioCtx) return;
+  ambientNodes.forEach(({osc,gain}) => {
+    gain.gain.linearRampToValueAtTime(0,audioCtx.currentTime+1.5);
+    osc.stop(audioCtx.currentTime+1.6);
+  });
+  ambientNodes=[];
+}
+
+/* ─── FORGIVE BUTTON ────────────────────── */
+document.getElementById('forgive-btn').addEventListener('click', function(){
+  startFlowers(null);
+  this.textContent = '💕 شکریہ، حرا جان 💕';
+  this.style.background = 'linear-gradient(135deg,#c9a84c,#8b6914)';
+  this.style.boxShadow = '0 4px 30px rgba(201,168,76,0.55)';
+  setTimeout(() => { this.textContent = '♥ ہمیشہ کے لیے — علی حسنین ♥'; }, 3200);
+});
+
+/* ─── 3D TILT ON CARDS ──────────────────── */
+document.querySelectorAll('.poem-card, .promise-item, .letter-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const r = card.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width - 0.5;
+    const y = (e.clientY - r.top) / r.height - 0.5;
+    card.style.transform = `perspective(600px) rotateX(${-y*7}deg) rotateY(${x*7}deg) translateY(-4px)`;
+  });
+  card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+});
+
+/* ─── CURSOR SPARKLE ────────────────────── */
+document.addEventListener('mousemove', e => {
+  if(Math.random() > 0.72) return;
+  const sp = document.createElement('div');
+  const sz = Math.random()*6+2;
+  sp.style.cssText = `position:fixed;pointer-events:none;z-index:9999;
+    left:${e.clientX-sz/2}px;top:${e.clientY-sz/2}px;
+    width:${sz}px;height:${sz}px;border-radius:50%;
+    background:${Math.random()>0.5?'#c8536a':'#c9a84c'};
+    opacity:0.85;transition:all 0.8s ease;`;
+  document.body.appendChild(sp);
+  requestAnimationFrame(() => {
+    sp.style.opacity='0';
+    sp.style.transform=`translate(${(Math.random()-0.5)*30}px,${-20-Math.random()*20}px) scale(0)`;
+  });
+  setTimeout(() => sp.remove(), 800);
+});
+for(let i = 0; i < 6; i++){
+  const img = document.getElementById('img-' + i);
+  const ph = document.getElementById('placeholder-' + i);
+  if(img){ img.style.display = 'block'; }
+  if(ph){ ph.style.display = 'none'; }
+}
+</script>
+</body>
+</html>
